@@ -1,0 +1,1 @@
+Backoffice credentials: john@doe.com / password
