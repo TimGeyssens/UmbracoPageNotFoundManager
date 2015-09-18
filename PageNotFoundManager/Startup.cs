@@ -25,7 +25,8 @@ namespace PageNotFoundManager
                 var mi = new MenuItem("pageNotFound", "404 page");
                 mi.Icon = "document";
                 mi.LaunchDialogView("/App_Plugins/PageNotFoundManager/Backoffice/Dialogs/dialog.html", "404 Page");
-                e.Menu.Items.Add(mi);
+                mi.SeperatorBefore = true;
+                e.Menu.Items.Insert(e.Menu.Items.Count - 1, mi);
             }
         }
     }
