@@ -13,7 +13,7 @@ namespace PageNotFoundManager
     {
         protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-            ContentFinderResolver.Current.InsertTypeBefore<ContentFinderByNotFoundHandlers, PageNotFoundContentFinder>();
+            ContentLastChanceFinderResolver.Current.SetFinder(new PageNotFoundContentFinder());
             TreeControllerBase.MenuRendering += TreeControllerBase_MenuRendering;
         }
 
