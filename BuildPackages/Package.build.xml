@@ -13,6 +13,32 @@
 	<Import Project="$(MSBuildNugetTasksPath)\MSBuild.NuGet.Tasks.Targets" />
 	
 	<!-- PROPERTIES -->
+	<!-- SHARED PROPERTIES -->
+	<PropertyGroup>
+		<PackageName>Umbraco Page Not Found Manager</PackageName>
+		<MinUmbracoVersion>7.0.0</MinUmbracoVersion>
+		<Readme>Easiliy manage your sites 404 pages from the content context menu</Readme>
+		<AuthorName>Tim Geyssens</AuthorName>
+		<AuthorUrl>http://nibble.be</AuthorUrl>
+		<PackageLicenseName>MIT license</PackageLicenseName>
+		<PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+		<ProjectUrl>https://nibble.be</ProjectUrl>
+	</PropertyGroup>
+
+	<!-- NUGET ONLY PROPERTIES -->
+	<PropertyGroup>
+		<NugetPackageName>Umbraco Page Not Found Manager</NugetPackageName>
+		<PackageId>Nibble.Umbraco.PageNotFoundManager</PackageId>
+		<Copyright>Tim Geyssens</Copyright>
+		<Owners>Tim Geyssens</Owners>
+		<Summary>Easiliy manage your sites 404 pages from the content context menu</Summary>
+		<IconUrl>https://raw.githubusercontent.com/Jeavon/Slimsy/master/Slimsy.png</IconUrl>
+		<Tags>umbraco</Tags>
+		<Language>en-GB</Language>
+		<RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+	</PropertyGroup>
+  
+
 	<PropertyGroup>
 		<VersionMajor>1</VersionMajor>
 		<VersionMinor>0</VersionMinor>
@@ -23,20 +49,24 @@
 
 	<PropertyGroup>
 		<RootDir>$(MSBuildProjectDirectory)</RootDir>
-		<BuildDir>$(RootDir)\Build</BuildDir>
 		<PackageDir>$(RootDir)\..\Releases</PackageDir>
+		<BuildUmbDir>$(MSBuildProjectDirectory)\_umbraco</BuildUmbDir>
+		<BuildNuGetDir>$(MSBuildProjectDirectory)\_nuget</BuildNuGetDir>
 		<CoreProjectDir>$(RootDir)\..\PageNotFoundManager\</CoreProjectDir>
-		<AppPluginDir>$(BuildDir)\App_Plugins\PageNotFoundManager</AppPluginDir>
+		<AppPluginUmbDir>$(BuildUmbDir)\App_Plugins\PageNotFoundManager</AppPluginUmbDir>
 	</PropertyGroup>
 
 	<!-- TARGETS -->
 
+  
 	<!-- CLEAN -->
 	<Target Name="Clean">
-		<RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
-		<MakeDir Directories="$(BuildDir)" />    
+		<RemoveDir Directories="$(BuildUmbDir)" Condition="Exists('$(BuildUmbDir)')" />
+		<RemoveDir Directories="$(BuildNuGetDir)" Condition="Exists('$(BuildNuGetDir)')" />   
+		<MakeDir Directories="$(BuildUmbDir)" />  
+		<MakeDir Directories="$(BuildNuGetDir)" />  
 		<MakeDir Directories="$(PackageDir)" />
-    <MakeDir Directories="$(AppPluginDir)" />
+    <MakeDir Directories="$(AppPluginUmbDir>)" />
 	</Target>
 
 	<!-- UPDATE ASSEMBLEY VERSION -->
@@ -58,7 +88,7 @@
 	</Target>
 
   <!-- PREPARE FILES -->
-	<Target Name="PrepairFiles" DependsOnTargets="Compile">
+	<Target Name="PrepareFiles" DependsOnTargets="Compile">
     
     <ItemGroup>
       <PackageFile Include="$(RootDir)\Package.xml" />
@@ -67,40 +97,86 @@
 	  <ScriptsFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\js\*.*" />
 	  <StyleFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\css\*.*" />
 	  <ViewFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\backoffice\dialogs\*.*" />
+	  <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
     </ItemGroup>
     
-	<Copy SourceFiles="@(ConfigFiles)" DestinationFolder="$(AppPluginDir)" />
-	<Copy SourceFiles="@(ScriptsFiles)" DestinationFolder="$(AppPluginDir)\js\" />
-	<Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(AppPluginDir)\css\" />
-	<Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(AppPluginDir)\backoffice\dialogs\" />
-    <Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildDir)" />       
+	<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
+    <Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildUmbDir)" />   
+	
+	<Copy SourceFiles="@(ConfigFiles)" DestinationFolder="$(AppPluginUmbDir)" />
+	<Copy SourceFiles="@(ScriptsFiles)" DestinationFolder="$(AppPluginUmbDir)\js\" />
+	<Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(AppPluginUmbDir)\css\" />
+	<Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(AppPluginUmbDir)\backoffice\dialogs\" />
     <Copy SourceFiles="@(BinFiles)"
-    DestinationFiles="@(BinFiles->'$(BuildDir)\bin\%(RecursiveDir)%(Filename)%(Extension)')" />
+    DestinationFiles="@(BinFiles->'$(BuildUmbDir)\bin\%(RecursiveDir)%(Filename)%(Extension)')" />
+	
+
+	<Copy SourceFiles="@(ConfigFiles)" DestinationFolder="$(BuildNuGetDir)" />
+	<Copy SourceFiles="@(ScriptsFiles)" DestinationFolder="$(BuildNuGetDir)\js\" />
+	<Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(BuildNuGetDir)\css\" />
+	<Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildNuGetDir)\backoffice\dialogs\" />
+    <Copy SourceFiles="@(BinFiles)"
+    DestinationFiles="@(BinFiles->'$(BuildNuGetDir)\lib\%(RecursiveDir)%(Filename)%(Extension)')" />
+	
   </Target>
 
     
-	<!-- MANIFEST -->
-	<Target Name="Manifest" DependsOnTargets="PrepairFiles">
+	<!-- MANIFEST UMBRACO -->
+	<Target Name="Manifest" DependsOnTargets="PrepareFiles">
 		<ItemGroup>
-			<ManifestFiles Include="$(BuildDir)\**\*" Exclude="$(BuildDir)\Package.xml" />
+			<ManifestFiles Include="$(BuildUmbDir)\**\*" Exclude="$(BuildUmbDir)\Package.xml" />
 		</ItemGroup>
-		<ManifestUpdate ManifestFile="$(BuildDir)\package.xml"
-			WorkingDirectory="$(BuildDir)"
+		<ManifestUpdate ManifestFile="$(BuildUmbDir)\package.xml"
+			WorkingDirectory="$(BuildUmbDir)"
 			MinimumRequiredUmbracoVersion="$(UmbracoVersion)"
 			PackageVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
 			Files="@(ManifestFiles)" />
 	</Target>
-
+  <!-- MANIFEST FOR NUGET PACKAGE -->
+	<Target Name="ManifestNuGet" DependsOnTargets="PrepareFiles">
+	<ItemGroup>
+	  <ManifestFiles Include="$(BuildNuGetDir)\**\*" Exclude="$(BuildNuGetDir)\package.nuspec" />
+	</ItemGroup>
+	<MSBuild.NuGet.Tasks.ManifestUpdate
+			ManifestFile="$(BuildNuGetDir)\package.nuspec"
+			WorkingDirectory="$(BuildNuGetDir)"
+			Title="$(NugetPackageName)"
+			Description="$(Readme)"
+			Summary="$(Summary)"
+			Version="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"
+			MinimumRequiredUmbracoVersion ="$(MinUmbracoVersion)"
+			Authors="$(AuthorName)"
+			Owners="$(Owners)"
+			Copyright="$(Copyright)"
+			LicenseUrl="$(PackageLicenseUrl)"
+			ProjectUrl="$(ProjectUrl)"
+			Id="$(PackageId)"
+			IconUrl="$(IconUrl)"
+			Language="$(Language)"
+			RequireLicenseAcceptance="$(RequireLicenseAcceptance)"
+			Tags="$(Tags)"
+			Files="@(ManifestFiles)" />
+	</Target>
 	<!-- PACKAGE -->
-	<Target Name="Package" DependsOnTargets="Manifest">
+	<Target Name="Package" DependsOnTargets="Manifest; ManifestNuGet">
 		<ItemGroup>
-			<PackageFiles Include="$(BuildDir)\**\*.*" />
+			<PackageFiles Include="$(BuildUmbDir)\**\*.*" />
 		</ItemGroup>
-		<Package ManifestFile="$(BuildDir)\Package.xml"
-			WorkingDirectory="$(BuildDir)"
+		
+		<Package ManifestFile="$(BuildUmbDir)\Package.xml"
+			WorkingDirectory="$(BuildUmbDir)"
 			OutputDirectory="$(PackageDir)"
 			Files="@(PackageFiles)" />
-        <RemoveDir Directories="$(BuildDir)" Condition="Exists('$(BuildDir)')" />
+			
+		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(RootDir)\Tools\NuGet.exe"
+          ManifestFile="$(BuildNuGetDir)\package.nuspec"
+          BasePath="$(BuildNuGetDir)"
+          Version="$(ProductVersion)"
+          OutputDirectory="$(PackageDir)"
+          Symbols="true" />
+		  
+        <RemoveDir Directories="$(BuildUmbDir)" Condition="Exists('$(BuildUmbDir)')" />
+		<RemoveDir Directories="$(BuildNuGetDir)" Condition="Exists('$(BuildNuGetDir)')" />
 	</Target>
 
 </Project>
