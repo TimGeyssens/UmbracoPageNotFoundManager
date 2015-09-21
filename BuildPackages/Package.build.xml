@@ -5,11 +5,13 @@
 	<PropertyGroup>
 		<MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\Tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
 		<MSBuildUmbracoTasksPath>$(MSBuildProjectDirectory)\Tools\MSBuildUmbracoTasks</MSBuildUmbracoTasksPath>
+		<MSBuildNugetTasksPath>$(MSBuildProjectDirectory)\Tools\MSBuildNugetTasks</MSBuildNugetTasksPath>
 	</PropertyGroup>
 
 	<Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
 	<Import Project="$(MSBuildUmbracoTasksPath)\MSBuild.Umbraco.Tasks.Targets" />
-
+	<Import Project="$(MSBuildNugetTasksPath)\MSBuild.NuGet.Tasks.Targets" />
+	
 	<!-- PROPERTIES -->
 	<PropertyGroup>
 		<VersionMajor>1</VersionMajor>
