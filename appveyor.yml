@@ -1,0 +1,14 @@
+# version format
+version: 1.0.1.{build}
+
+# Do not build on tags
+skip_tags: true
+
+
+build_script:
+  - cd BuildPackages
+  - Package.build.cmd
+
+artifacts:
+  - path: Releases\*.nupkg
+  - path: Releases\*.zip
