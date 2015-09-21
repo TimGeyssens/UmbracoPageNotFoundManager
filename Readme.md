@@ -14,3 +14,15 @@ Adds a new context menu item to Umbraco content items (for admins only) where yo
 
 ### Test site ###
 Backoffice credentials: **john@doe.com / password**
+
+
+### Installation
+
+1. [**NuGet Package**][NuGetPackageUrl]  
+Install the NuGet package in your Visual Studio project. Makes updating easy.
+
+2. [**Umbraco package**][UmbracoPackageUrl]  
+Install the Umbraco package via the developer section in Umbraco.
+
+[NuGetPackageUrl]: https://www.nuget.org/packages/Nibble.Umbraco.PageNotFoundManager/
+[UmbracoPackageUrl]: https://our.umbraco.org/projects/backoffice-extensions/pagenotfoundmanager

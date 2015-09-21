@@ -41,7 +41,7 @@
 
 	<PropertyGroup>
 		<VersionMajor>1</VersionMajor>
-		<VersionMinor>1</VersionMinor>
+		<VersionMinor>2</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionSuffix></VersionSuffix>
 		<UmbracoVersion>7.0.0</UmbracoVersion>
@@ -111,10 +111,10 @@
     DestinationFiles="@(BinFiles->'$(BuildUmbDir)\bin\%(RecursiveDir)%(Filename)%(Extension)')" />
 	
 
-	<Copy SourceFiles="@(ConfigFiles)" DestinationFolder="$(BuildNuGetDir)" />
-	<Copy SourceFiles="@(ScriptsFiles)" DestinationFolder="$(BuildNuGetDir)\js\" />
-	<Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(BuildNuGetDir)\css\" />
-	<Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildNuGetDir)\backoffice\dialogs\" />
+	<Copy SourceFiles="@(ConfigFiles)" DestinationFolder="$(BuildNuGetDir)\App_Plugins\PageNotFoundManager\" />
+	<Copy SourceFiles="@(ScriptsFiles)" DestinationFolder="$(BuildNuGetDir)\App_Plugins\PageNotFoundManager\js\" />
+	<Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(BuildNuGetDir)\App_Plugins\PageNotFoundManager\css\" />
+	<Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(BuildNuGetDir)\App_Plugins\PageNotFoundManager\backoffice\dialogs\" />
     <Copy SourceFiles="@(BinFiles)"
     DestinationFiles="@(BinFiles->'$(BuildNuGetDir)\lib\%(RecursiveDir)%(Filename)%(Extension)')" />
 	
