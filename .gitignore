@@ -93,3 +93,10 @@ www/App_Data/umbraco.config
 */App_Browsers/*
 */App_Data/TEMP/*
 */_systemUmbracoIndexDontDelete/*
+
+
+# But not these files...
+!/BuildPackages/Tools/MSBuildCommunityTasks/*
+!/BuildPackages/Tools/MSBuildNugetTasks/*
+!/BuildPackages/Tools/MSBuildUmbracoTasks/*
+
