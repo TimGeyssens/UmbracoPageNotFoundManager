@@ -39,7 +39,7 @@ namespace PageNotFoundManager
             ConfigFile.Save(HostingEnvironment.MapPath(PluginFolder + "/" + ConfigFileName));
 
             HttpRuntime.Cache.Remove("pageNotFoundManagerSettingsFile");
-            EnsureSettingsDocument();
+            EnsureConfig();
 
         }
 
@@ -49,12 +49,12 @@ namespace PageNotFoundManager
         {
             get
             {
-                var us = (XmlDocument)HttpRuntime.Cache["pageNotFoundManagerSettingsFile"] ?? EnsureSettingsDocument();
+                var us = (XmlDocument)HttpRuntime.Cache["pageNotFoundManagerSettingsFile"] ?? EnsureConfig();
                 return us;
             }
         }
 
-        private static XmlDocument EnsureSettingsDocument()
+        private static XmlDocument EnsureConfig()
         {
             var settingsFile = HttpRuntime.Cache["pageNotFoundManagerSettingsFile"];
             var fullPath = HostingEnvironment.MapPath(PluginFolder + "/" + ConfigFileName);
