@@ -2,10 +2,10 @@
 <umbPackage>
 	<info>
 		<package>
-			<name>Optimus.Providers.Less</name>
+			<name>Page Not Found Manager</name>
 			<version>0.0.0</version>
 			<license url="http://www.opensource.org/licenses/mit-license.php">MIT license</license>
-			<url>http://our.umbraco.org/projects/developer-tools/optimus</url>
+			<url>http://nibble.be</url>
 			<requirements>
 				<major>0</major>
 				<minor>0</minor>
@@ -13,11 +13,11 @@
 			</requirements>
 		</package>
 		<author>
-			<name>Warren Buckley, Tim Geyssens and Jeavon Leopold</name>
-			<website>https://github.com/TimGeyssens/BundlingAndMinificationForTheMasses</website>
+			<name>Tim Geyssens</name>
+			<website>https://nibble.be</website>
 		</author>
         <readme>
-          <![CDATA[Less provider for Optimus, allows you to create less files in the Umbraco backoffice.]]>
+          <![CDATA[Easiliy manage your sites 404 pages from the content context menu]]>
         </readme>
 	</info>
 
@@ -28,17 +28,8 @@
 	<DictionaryItems />
 	<Languages />
 	<DataTypes />
-
-    <Actions>
-      <Action runat="install" undo="true" alias="Umbundle.AddConfigSection" name="less" type="BundleTransformer.Less.Configuration.LessSettings, BundleTransformer.Less" sectionGroup="bundleTransformer" />
-      <Action runat="install" undo="true" alias="Umbundle.AddBundleTransformerProvider" name="LessTranslator" type="BundleTransformer.Less.Translators.LessTranslator, BundleTransformer.Less" addType="css-translator" />
-      <Action runat="install" undo="true" alias="Umbundle.AddBundleTransformerFileExtension" fileExtension=".less" assetTypeCode="Less" addType="css" />
-      <Action runat="install" undo="true" alias="Umbundle.AddHttpHandler" name="LessAssetHandler" position="end" path="*.less" verb="GET" type="BundleTransformer.Less.HttpHandlers.LessAssetHandler, BundleTransformer.Less" validate="true" />
-      <Action runat="install" undo="true" alias="Umbundle.AddBundleTransformerJSEngine" name="less" engine="MsieJsEngine"  />
-    </Actions>
-	
+    <Actions />
 	<control />
-
 	<files />
 
 </umbPackage>

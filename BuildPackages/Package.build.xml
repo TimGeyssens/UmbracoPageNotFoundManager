@@ -23,7 +23,7 @@
 		<RootDir>$(MSBuildProjectDirectory)</RootDir>
 		<BuildDir>$(RootDir)\Build</BuildDir>
 		<PackageDir>$(RootDir)\..\Releases</PackageDir>
-		<CoreProjectDir>$(RootDir)\..</CoreProjectDir>
+		<CoreProjectDir>$(RootDir)\..\PageNotFoundManager\</CoreProjectDir>
 	</PropertyGroup>
 
 	<!-- TARGETS -->
@@ -43,7 +43,7 @@
 			<Output TaskParameter="Revision" PropertyName="Revision" />
 		</Version>
 		<AssemblyInfo CodeLanguage="CS"
-			OutputFile="$(CoreProjectDir)\PageNotFoundManager\Properties\VersionInfo.cs"
+			OutputFile="$(CoreProjectDir)\Properties\VersionInfo.cs"
 			AssemblyVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)"
 			AssemblyFileVersion="$(VersionMajor).$(VersionMinor).$(Build).$(Revision)"
 			AssemblyInformationalVersion="$(VersionMajor).$(VersionMinor).$(VersionPatch)$(VersionSuffix)"/>
@@ -51,7 +51,7 @@
 
 	<!-- COMPILE -->
 	<Target Name="Compile" DependsOnTargets="UpdateAssemblyInfo">
-		<MSBuild Projects="$(CoreProjectDir)\PageNotFoundManager.sln" />
+		<MSBuild Projects="$(CoreProjectDir)\PageNotFoundManager.csproj" />
 	</Target>
 
   <!-- PREPARE FILES -->
@@ -59,7 +59,7 @@
     
     <ItemGroup>
       <PackageFile Include="$(RootDir)\Package.xml" />
-      <BinFiles Include="$(CoreProjectDir)\bin\**\*.dll" />
+      <BinFiles Include="$(CoreProjectDir)\bin\**\PageNotFoundManager.dll" />
     </ItemGroup>
     
     <Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildDir)" />       
