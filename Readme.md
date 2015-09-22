@@ -25,4 +25,4 @@ Install the NuGet package in your Visual Studio project. Makes updating easy.
 Install the Umbraco package via the developer section in Umbraco.
 
 [NuGetPackageUrl]: https://www.nuget.org/packages/Nibble.Umbraco.PageNotFoundManager/
-[UmbracoPackageUrl]: https://our.umbraco.org/projects/backoffice-extensions/pagenotfoundmanager
+[UmbracoPackageUrl]: https://our.umbraco.org/projects/backoffice-extensions/umbraco-page-not-found-manager/
