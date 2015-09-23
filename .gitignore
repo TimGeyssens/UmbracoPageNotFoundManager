@@ -100,3 +100,4 @@ www/App_Data/umbraco.config
 !/BuildPackages/Tools/MSBuildNugetTasks/*
 !/BuildPackages/Tools/MSBuildUmbracoTasks/*
 
+TestSite/App_Data/Logs/
