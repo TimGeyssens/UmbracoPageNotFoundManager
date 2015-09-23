@@ -116,7 +116,15 @@ function ($scope, pageNotFoundManagerResource, eventsService, navigationService,
         $scope.busy = true;
         $scope.error = false;
 
-        pageNotFoundManagerResource.setNotFoundPage(node.id,$scope.target.id)
+        var parentId = 0;
+        if (node != null)
+            parentId = node.id;
+
+        var notFoundPageId = 0;
+        if ($scope.target != null)
+            notFoundPageId = $scope.target.id;
+
+        pageNotFoundManagerResource.setNotFoundPage(parentId, notFoundPageId)
             .then(function (path) {
                 $scope.error = false;
                 $scope.success = true;
