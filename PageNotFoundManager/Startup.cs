@@ -20,7 +20,8 @@ namespace PageNotFoundManager
         void TreeControllerBase_MenuRendering(TreeControllerBase sender, MenuRenderingEventArgs e)
         {
             if (sender.TreeAlias == "content"
-                && sender.Security.CurrentUser.UserType.Alias == "admin")
+                && sender.Security.CurrentUser.UserType.Alias == "admin"
+                && e.NodeId != "-1" && e.NodeId != "-20")
             {
                 var mi = new MenuItem("pageNotFound", "404 page");
                 mi.Icon = "document";
