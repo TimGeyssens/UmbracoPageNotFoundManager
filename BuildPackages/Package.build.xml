@@ -22,7 +22,7 @@
 		<AuthorUrl>http://nibble.be</AuthorUrl>
 		<PackageLicenseName>MIT license</PackageLicenseName>
 		<PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
-		<ProjectUrl>https://nibble.be</ProjectUrl>
+		<ProjectUrl>http://nibble.be</ProjectUrl>
 	</PropertyGroup>
 
 	<!-- NUGET ONLY PROPERTIES -->
@@ -41,7 +41,7 @@
 
 	<PropertyGroup>
 		<VersionMajor>1</VersionMajor>
-		<VersionMinor>4</VersionMinor>
+		<VersionMinor>5</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionSuffix></VersionSuffix>
 		<UmbracoVersion>7.0.0</UmbracoVersion>
