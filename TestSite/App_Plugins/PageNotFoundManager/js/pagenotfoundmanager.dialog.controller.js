@@ -1,5 +1,5 @@
 ﻿angular.module("umbraco").controller("PageNotFoundManager.Dialog.Controller",
-    	
+
 function ($scope, pageNotFoundManagerResource, eventsService, navigationService, appState, treeService, localizationService, entityResource, iconHelper) {
 
     var dialogOptions = $scope.dialogOptions;
@@ -22,13 +22,13 @@ function ($scope, pageNotFoundManagerResource, eventsService, navigationService,
         $scope.loaded = true;
     });
 
-   
+
     var searchText = "Search...";
     localizationService.localize("general_search").then(function (value) {
         searchText = value + "...";
     });
 
- 
+
     $scope.dialogTreeEventHandler = $({});
     $scope.busy = false;
     $scope.searchInfo = {
@@ -39,7 +39,7 @@ function ($scope, pageNotFoundManagerResource, eventsService, navigationService,
         selectedSearchResults: []
     }
 
-    
+
 
     function nodeSelectHandler(ev, args) {
         args.event.preventDefault();
@@ -63,7 +63,7 @@ function ($scope, pageNotFoundManagerResource, eventsService, navigationService,
             $scope.target = args.node;
             $scope.target.selected = true;
         }
-	        
+
     }
 
     function nodeExpandedHandler(ev, args) {
@@ -110,7 +110,7 @@ function ($scope, pageNotFoundManagerResource, eventsService, navigationService,
         $scope.searchInfo.results = results;
         $scope.searchInfo.showSearch = true;
     };
-        
+
     $scope.setNotFoundPage = function () {
 
         $scope.busy = true;
@@ -138,7 +138,7 @@ function ($scope, pageNotFoundManagerResource, eventsService, navigationService,
             });
     };
 
-    $scope.clear = function() {
+    $scope.clear = function () {
         $scope.pageNotFoundNode = null;
     };
 

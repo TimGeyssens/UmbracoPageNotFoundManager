@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <umbPackage>
 	<info>
 		<package>
@@ -14,7 +14,7 @@
 		</package>
 		<author>
 			<name>Tim Geyssens</name>
-			<website>https://nibble.be</website>
+			<website>http://nibble.be</website>
 		</author>
         <readme>
           <![CDATA[Easiliy manage your sites 404 pages from the content context menu]]>

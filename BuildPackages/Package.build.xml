@@ -42,7 +42,7 @@
 	<PropertyGroup>
 		<VersionMajor>1</VersionMajor>
 		<VersionMinor>5</VersionMinor>
-		<VersionPatch>0</VersionPatch>
+		<VersionPatch>1</VersionPatch>
 		<VersionSuffix></VersionSuffix>
 		<UmbracoVersion>7.0.0</UmbracoVersion>
 	</PropertyGroup>
@@ -103,6 +103,7 @@
 	  <StyleFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\css\*.*" />
 	  <ViewFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\backoffice\dialogs\*.*" />
 	  <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
+	  <NugetReadmeFile Include="$(MSBuildProjectDirectory)\readme.txt" />
     </ItemGroup>
     
 	<Copy SourceFiles="@(NuSpecFile)" DestinationFolder="$(BuildNuGetDir)" />
@@ -116,6 +117,7 @@
     DestinationFiles="@(BinFiles->'$(BuildUmbDir)\bin\%(RecursiveDir)%(Filename)%(Extension)')" />
 	
 
+	<Copy SourceFiles="@(NugetReadmeFile)" DestinationFolder="$(BuildNuGetDir)\" />
 	<Copy SourceFiles="@(ConfigFiles)" DestinationFolder="$(BuildNuGetDir)\Content\App_Plugins\PageNotFoundManager\" />
 	<Copy SourceFiles="@(ScriptsFiles)" DestinationFolder="$(BuildNuGetDir)\Content\App_Plugins\PageNotFoundManager\js\" />
 	<Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(BuildNuGetDir)\Content\App_Plugins\PageNotFoundManager\css\" />
