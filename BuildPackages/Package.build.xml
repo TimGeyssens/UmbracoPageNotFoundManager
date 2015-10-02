@@ -42,7 +42,7 @@
 	<PropertyGroup>
 		<VersionMajor>1</VersionMajor>
 		<VersionMinor>6</VersionMinor>
-		<VersionPatch>1</VersionPatch>
+		<VersionPatch>2</VersionPatch>
 		<VersionSuffix></VersionSuffix>
 		<UmbracoVersion>7.3.0</UmbracoVersion>
 	</PropertyGroup>
@@ -98,6 +98,7 @@
     <ItemGroup>
       <PackageFile Include="$(RootDir)\Package.xml" />
       <BinFiles Include="$(CoreProjectDir)\bin\**\PageNotFoundManager.dll" />
+	  <TransformBinFiles Include="$(CoreProjectDir)\bin\**\Microsoft.Web.XmlTransform.dll" />
 	  <ConfigFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\*.*" />
 	  <ScriptsFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\js\*.*" />
 	  <StyleFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\css\*.*" />
@@ -116,7 +117,8 @@
 	<Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(AppPluginUmbDir)\backoffice\dialogs\" />
     <Copy SourceFiles="@(BinFiles)"
     DestinationFiles="@(BinFiles->'$(BuildUmbDir)\bin\%(RecursiveDir)%(Filename)%(Extension)')" />
-	
+	<Copy SourceFiles="@(TransformBinFiles)"
+    DestinationFiles="@(TransformBinFiles->'$(BuildUmbDir)\bin\%(RecursiveDir)%(Filename)%(Extension)')" />
 
 	<Copy SourceFiles="@(NugetXdtTranformFile)" DestinationFolder="$(BuildNuGetDir)\Content\" />
 	<Copy SourceFiles="@(NugetReadmeFile)" DestinationFolder="$(BuildNuGetDir)\" />

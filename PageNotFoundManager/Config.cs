@@ -6,6 +6,7 @@ using System.Web.Caching;
 using System.Web.Hosting;
 using System.Xml;
 using umbraco.BusinessLogic;
+using UC = Umbraco.Core;
 
 namespace PageNotFoundManager
 {
@@ -74,7 +75,8 @@ namespace PageNotFoundManager
                 }
                 catch (Exception e)
                 {
-                    Umbraco.Core.Logging.LogHelper.Error(typeof(Config), e.Message, e);
+                    
+                    UC.Logging.LogHelper.Error(typeof(Config), e.Message, e);
 
                 }
                 settingsReader.Close();
