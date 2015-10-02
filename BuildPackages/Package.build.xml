@@ -16,7 +16,7 @@
 	<!-- SHARED PROPERTIES -->
 	<PropertyGroup>
 		<PackageName>Umbraco Page Not Found Manager</PackageName>
-		<MinUmbracoVersion>7.0.0</MinUmbracoVersion>
+		<MinUmbracoVersion>7.3.0</MinUmbracoVersion>
 		<Readme>Easiliy manage your sites 404 pages from the content context menu</Readme>
 		<AuthorName>Tim Geyssens</AuthorName>
 		<AuthorUrl>http://nibble.be</AuthorUrl>
@@ -44,7 +44,7 @@
 		<VersionMinor>5</VersionMinor>
 		<VersionPatch>1</VersionPatch>
 		<VersionSuffix></VersionSuffix>
-		<UmbracoVersion>7.0.0</UmbracoVersion>
+		<UmbracoVersion>7.3.0</UmbracoVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
