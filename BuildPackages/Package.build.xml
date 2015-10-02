@@ -103,6 +103,7 @@
 	  <ScriptsFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\js\*.*" />
 	  <StyleFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\css\*.*" />
 	  <ViewFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\backoffice\dialogs\*.*" />
+	  <TempFiles Include="$(CoreProjectDir)\App_Plugins\PageNotFoundManager\temp\*.*" />
 	  <NuSpecFile Include="$(MSBuildProjectDirectory)\package.nuspec" />
 	  <NugetReadmeFile Include="$(MSBuildProjectDirectory)\readme.txt" />
 	  <NugetXdtTranformFile Include="$(MSBuildProjectDirectory)\web.config.install.xdt" />
@@ -115,6 +116,7 @@
 	<Copy SourceFiles="@(ScriptsFiles)" DestinationFolder="$(AppPluginUmbDir)\js\" />
 	<Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(AppPluginUmbDir)\css\" />
 	<Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(AppPluginUmbDir)\backoffice\dialogs\" />
+	<Copy SourceFiles="@(TempFiles)" DestinationFolder="$(AppPluginUmbDir)\temp\" />
     <Copy SourceFiles="@(BinFiles)"
     DestinationFiles="@(BinFiles->'$(BuildUmbDir)\bin\%(RecursiveDir)%(Filename)%(Extension)')" />
 	<Copy SourceFiles="@(TransformBinFiles)"
