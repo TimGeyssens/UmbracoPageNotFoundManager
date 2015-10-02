@@ -28,7 +28,9 @@
 	<DictionaryItems />
 	<Languages />
 	<DataTypes />
-    <Actions />
+    	<Actions>
+    		<Action runat="install" undo="false" alias="PNFM.TransformConfig" file="~/web.config" xdtfile="~/app_plugins/PageNotFoundManager/temp/web.config.install.xdt"></Action>
+    	</Actions>
 	<control />
 	<files />
 
