@@ -29,7 +29,7 @@
 	<Languages />
 	<DataTypes />
     	<Actions>
-    		<Action runat="install" undo="false" alias="PNFM.TransformConfig" file="~/web.config" xdtfile="~/app_plugins/PageNotFoundManager/temp/web.config.install.xdt"></Action>
+    		<Action runat="install" undo="false" alias="PNFM.TransformConfig" file="~/web.config" xdtfile="~/app_plugins/PageNotFoundManager/temp/web.config"></Action>
     	</Actions>
 	<control />
 	<files />
