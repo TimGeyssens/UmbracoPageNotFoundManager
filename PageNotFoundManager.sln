@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageNotFoundManager", "PageNotFoundManager\PageNotFoundManager.csproj", "{2F1494AC-E9FA-463D-8658-1E66D40B6E97}"
 EndProject
@@ -12,6 +12,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2E0D3F
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildPackage", "BuildPackage", "{35134CA1-6396-4AA8-AD4F-D38319C79B54}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		BuildPackages\package.nuspec = BuildPackages\package.nuspec
+		BuildPackages\Package.xml = BuildPackages\Package.xml
+		Readme.md = Readme.md
+		BuildPackages\web.config.install.xdt = BuildPackages\web.config.install.xdt
 	EndProjectSection
 EndProject
 Global
