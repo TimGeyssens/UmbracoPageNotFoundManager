@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using PageNotFoundManager.Extensions;
 using PageNotFoundManager.Models;
 using Umbraco.Core.Models;
+using Umbraco.Web.Cache;
 using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
 
@@ -59,6 +61,8 @@ namespace PageNotFoundManager.Controllers
         public void SetNotFoundPage(PageNotFound pnf)
         {
             Config.SetNotFoundPage(pnf.ParentId, pnf.NotFoundPageId);
+            
+            DistributedCache.Instance.RefreshPageNotFoundConfig(pnf);
         }
     }
 }
