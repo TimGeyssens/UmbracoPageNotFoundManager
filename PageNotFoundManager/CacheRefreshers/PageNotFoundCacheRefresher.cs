@@ -32,8 +32,7 @@ namespace PageNotFoundManager.CacheRefreshers
         public override void Refresh(object payload)
         {
             var jsonPayload = (PageNotFound)payload;
-
-            PageNotFoundManager.Config.SetNotFoundPage(jsonPayload.ParentId, jsonPayload.NotFoundPageId);
+            Config.RefreshCache();
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.EnterpriseServices;
 using System.Linq;
-using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Web;
@@ -14,7 +12,6 @@ namespace PageNotFoundManager
     {
         public bool TryFindContent(PublishedContentRequest contentRequest)
         {
-
             var uri = contentRequest.Uri.GetAbsolutePathDecoded();
             // a route is "/path/to/page" when there is no domain, and "123/path/to/page" when there is a domain, and then 123 is the ID of the node which is the root of the domain
             //get domain name from Uri
@@ -70,11 +67,6 @@ namespace PageNotFoundManager
 
             contentRequest.PublishedContent = content;
             return true;
-
-
         }
-
-
-
     }
 }

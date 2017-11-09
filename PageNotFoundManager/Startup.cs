@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using PageNotFoundManager.Models;
 using Umbraco.Core;
+using Umbraco.Core.Persistence;
 using Umbraco.Web.Models.Trees;
 using Umbraco.Web.Routing;
 using Umbraco.Web.Trees;
@@ -15,6 +13,20 @@ namespace PageNotFoundManager
         {
             ContentLastChanceFinderResolver.Current.SetFinder(new PageNotFoundContentFinder());
             TreeControllerBase.MenuRendering += TreeControllerBase_MenuRendering;
+        }
+
+        protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        {
+            DatabaseContext ctx = ApplicationContext.Current.DatabaseContext;
+            DatabaseSchemaHelper dbSchema = new DatabaseSchemaHelper(ctx.Database, ApplicationContext.Current.ProfilingLogger.Logger, ctx.SqlSyntax);
+
+            dbSchema.DropTable<PageNotFound>();
+            if (!dbSchema.TableExist(PageNotFound.TableName))
+            {
+                dbSchema.CreateTable<PageNotFound>(false);
+
+                // maybe import the current nodes from the old config XML file here?
+            }
         }
 
         void TreeControllerBase_MenuRendering(TreeControllerBase sender, MenuRenderingEventArgs e)

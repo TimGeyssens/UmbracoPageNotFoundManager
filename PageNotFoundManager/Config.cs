@@ -1,88 +1,63 @@
-﻿using System;
+﻿using PageNotFoundManager.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Caching;
-using System.Web.Hosting;
-using System.Xml;
-using umbraco.BusinessLogic;
-using UC = Umbraco.Core;
+using Umbraco.Core.Persistence;
+using Umbraco.Web;
 
 namespace PageNotFoundManager
 {
     public class Config
     {
-        public const string PluginFolder = "~/App_plugins/PageNotFoundManager";
-
-        public const string ConfigFileName = "PageNotFoundManager.config";
+        private const string CacheKey = "pageNotFoundManagerConfig";
 
         public static int GetNotFoundPage(int parentId)
         {
-            var x = ConfigFile.SelectSingleNode(string.Format("//notFoundPage [@parent = '{0}']", parentId));
-            return x != null ? Convert.ToInt32(x.InnerText) : 0;
+            var x = ConfiguredPages.FirstOrDefault(p => p.ParentId == parentId);
+            return x != null ? x.NotFoundPageId : 0;
         }
 
         public static void SetNotFoundPage(int parentId, int pageNotFoundId)
         {
-            var x = ConfigFile.SelectSingleNode(string.Format("//notFoundPage [@parent = '{0}']", parentId.ToString()));
-
-            if (x == null)
+            var db = UmbracoContext.Current.Application.DatabaseContext.Database;
+            var page = db.FirstOrDefault<PageNotFound>(new Sql().Where<PageNotFound>(p => p.ParentId == parentId));
+            if (page == null)
             {
-                x = ConfigFile.CreateElement("notFoundPage");
-                var a = ConfigFile.CreateAttribute("parent");
-                a.Value = parentId.ToString();
-                x.Attributes.Append(a);
-                ConfigFile.DocumentElement.AppendChild(x);
+                // create the page
+                db.Insert(new PageNotFound { ParentId = parentId, NotFoundPageId = pageNotFoundId });
+            }
+            else
+            {
+                // update the existing page
+                page.NotFoundPageId = pageNotFoundId;
+                db.Update(page);
             }
 
-            x.InnerText = pageNotFoundId.ToString();
-
-            ConfigFile.Save(HostingEnvironment.MapPath(PluginFolder + "/" + ConfigFileName));
-
-            HttpRuntime.Cache.Remove("pageNotFoundManagerSettingsFile");
-            EnsureConfig();
-
+            RefreshCache();
         }
 
-       
+        public static void RefreshCache()
+        {
+            HttpRuntime.Cache.Remove(CacheKey);
+            LoadFromDb();
+        }
 
-        public static XmlDocument ConfigFile
+        private static IEnumerable<PageNotFound> ConfiguredPages
         {
             get
             {
-                var us = (XmlDocument)HttpRuntime.Cache["pageNotFoundManagerSettingsFile"] ?? EnsureConfig();
+                var us = (IEnumerable<PageNotFound>)HttpRuntime.Cache[CacheKey] ?? LoadFromDb();
                 return us;
             }
         }
 
-        private static XmlDocument EnsureConfig()
+        private static IEnumerable<PageNotFound> LoadFromDb()
         {
-            var settingsFile = HttpRuntime.Cache["pageNotFoundManagerSettingsFile"];
-            var fullPath = HostingEnvironment.MapPath(PluginFolder + "/" + ConfigFileName);
-
-            if (settingsFile == null)
-            {
-                var temp = new XmlDocument();
-                var settingsReader = new XmlTextReader(fullPath);
-                try
-                {
-                    temp.Load(settingsReader);
-                    HttpRuntime.Cache.Insert("pageNotFoundManagerSettingsFile", temp, new CacheDependency(fullPath));
-                }
-                catch (XmlException e)
-                {
-                    throw new XmlException("Your PageNotFoundManager.config file fails to pass as valid XML. Refer to the InnerException for more information", e);
-                }
-                catch (Exception e)
-                {
-                    
-                    UC.Logging.LogHelper.Error(typeof(Config), e.Message, e);
-
-                }
-                settingsReader.Close();
-                return temp;
-            }
-            return (XmlDocument)settingsFile;
+            var db = UmbracoContext.Current.Application.DatabaseContext.Database;
+            var sql = new Sql().Select("*").From(PageNotFound.TableName);
+            var pages = db.Fetch<PageNotFound>(sql);
+            HttpRuntime.Cache.Insert(CacheKey, pages);
+            return pages;
         }
     }
 }
