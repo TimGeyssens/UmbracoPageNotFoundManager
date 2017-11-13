@@ -20,11 +20,10 @@ namespace PageNotFoundManager
             DatabaseContext ctx = ApplicationContext.Current.DatabaseContext;
             DatabaseSchemaHelper dbSchema = new DatabaseSchemaHelper(ctx.Database, ApplicationContext.Current.ProfilingLogger.Logger, ctx.SqlSyntax);
 
-            dbSchema.DropTable<PageNotFound>();
+            //dbSchema.DropTable<PageNotFound>();
             if (!dbSchema.TableExist(PageNotFound.TableName))
             {
                 dbSchema.CreateTable<PageNotFound>(false);
-
                 // maybe import the current nodes from the old config XML file here?
             }
         }
