@@ -288,6 +288,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Extensions\PageNotFoundManagerExtensions.cs" />
+    <Compile Include="Migrator.cs" />
     <Compile Include="Models\PageNotFound.cs" />
     <Compile Include="PageNotFoundContentFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
