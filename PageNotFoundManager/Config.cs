@@ -62,6 +62,16 @@ namespace PageNotFoundManager
 
             if (settingsFile == null)
             {
+                if (!File.Exists(fullPath))
+                {
+                    using (StreamWriter sw = File.CreateText(fullPath))
+                    {
+                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+                        sw.WriteLine("<notFoundPages>");
+                        sw.WriteLine("</notFoundPages>");
+                    }
+                }
+
                 var temp = new XmlDocument();
                 var settingsReader = new XmlTextReader(fullPath);
                 try
