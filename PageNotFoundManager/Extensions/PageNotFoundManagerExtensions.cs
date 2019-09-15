@@ -9,7 +9,7 @@ namespace PageNotFoundManager.Extensions
     {
         public static void RefreshPageNotFoundConfig(this DistributedCache dc, PageNotFound pageNotFound)
         {
-            dc.RefreshByPayload(new Guid(PageNotFoundManagerCacheRefresher.Id), pageNotFound);
+            dc.RefreshByPayload(new Guid(PageNotFoundManagerCacheRefresher.Id), new[] { pageNotFound });
         }
     }
 }

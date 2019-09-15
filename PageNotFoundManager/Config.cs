@@ -1,99 +1,78 @@
+using NPoco;
+using PageNotFoundManager.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Caching;
-using System.Web.Hosting;
-using System.Xml;
-using umbraco.BusinessLogic;
-using UC = Umbraco.Core;
+using Umbraco.Core.Scoping;
 
 namespace PageNotFoundManager
 {
-    public class Config
+    public class Config : IPageNotFoundManagerConfig
     {
-        public const string PluginFolder = "~/App_plugins/PageNotFoundManager";
+        private const string CacheKey = "pageNotFoundManagerConfig";
+        private readonly IScopeProvider scopeProvider;
 
-        public const string ConfigFileName = "PageNotFoundManager.config";
-
-        public static int GetNotFoundPage(int parentId)
+        public Config(IScopeProvider scopeProvider)
         {
-            var x = ConfigFile.SelectSingleNode(string.Format("//notFoundPage [@parent = '{0}']", parentId));
-            return x != null ? Convert.ToInt32(x.InnerText) : 0;
+            this.scopeProvider = scopeProvider ?? throw new ArgumentNullException(nameof(scopeProvider));
         }
 
-        public static void SetNotFoundPage(int parentId, int pageNotFoundId)
+        public int GetNotFoundPage(int parentId)
         {
-            var x = ConfigFile.SelectSingleNode(string.Format("//notFoundPage [@parent = '{0}']", parentId.ToString()));
+            var x = ConfiguredPages.FirstOrDefault(p => p.ParentId == parentId);
+            return x != null ? x.NotFoundPageId : 0;
+        }
 
-            if (x == null)
+        public void SetNotFoundPage(int parentId, int pageNotFoundId, bool refreshCache)
+        {
+            using (var scope = scopeProvider.CreateScope())
             {
-                x = ConfigFile.CreateElement("notFoundPage");
-                var a = ConfigFile.CreateAttribute("parent");
-                a.Value = parentId.ToString();
-                x.Attributes.Append(a);
-                ConfigFile.DocumentElement.AppendChild(x);
+                var db = scope.Database;
+                var page = db.Query<PageNotFound>().Where(p => p.ParentId == parentId).FirstOrDefault();
+                if (page == null)
+                {
+                    // create the page
+                    db.Insert<PageNotFound>(new PageNotFound { ParentId = parentId, NotFoundPageId = pageNotFoundId });
+                }
+                else
+                {
+                    // update the existing page
+                    page.NotFoundPageId = pageNotFoundId;
+                    db.Update(PageNotFound.TableName, "ParentId", page);
+                }
+                scope.Complete();
             }
-
-            x.InnerText = pageNotFoundId.ToString();
-
-            ConfigFile.Save(HostingEnvironment.MapPath(PluginFolder + "/" + ConfigFileName));
-
-            HttpRuntime.Cache.Remove("pageNotFoundManagerSettingsFile");
-            EnsureConfig();
-
+            if(refreshCache)
+                RefreshCache();
         }
 
-       
+        public void RefreshCache()
+        {
+            HttpRuntime.Cache.Remove(CacheKey);
+            LoadFromDb();
+        }
 
-        public static XmlDocument ConfigFile
+        private IEnumerable<PageNotFound> ConfiguredPages
         {
             get
             {
-                var us = (XmlDocument)HttpRuntime.Cache["pageNotFoundManagerSettingsFile"] ?? EnsureConfig();
+                var us = (IEnumerable<PageNotFound>)HttpRuntime.Cache[CacheKey] ?? LoadFromDb();
                 return us;
             }
         }
 
-        private static XmlDocument EnsureConfig()
+        private IEnumerable<PageNotFound> LoadFromDb()
         {
-            var settingsFile = HttpRuntime.Cache["pageNotFoundManagerSettingsFile"];
-            var fullPath = HostingEnvironment.MapPath(PluginFolder + "/" + ConfigFileName);
-
-            if (settingsFile == null)
+            using (var scope = scopeProvider.CreateScope())
             {
-                if (!File.Exists(fullPath))
-                {
-                    using (StreamWriter sw = File.CreateText(fullPath))
-                    {
-                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-                        sw.WriteLine("<notFoundPages>");
-                        sw.WriteLine("</notFoundPages>");
-                    }
-                }
-
-                var temp = new XmlDocument();
-                var settingsReader = new XmlTextReader(fullPath);
-                try
-                {
-                    temp.Load(settingsReader);
-                    HttpRuntime.Cache.Insert("pageNotFoundManagerSettingsFile", temp, new CacheDependency(fullPath));
-                }
-                catch (XmlException e)
-                {
-                    throw new XmlException("Your PageNotFoundManager.config file fails to pass as valid XML. Refer to the InnerException for more information", e);
-                }
-                catch (Exception e)
-                {
-                    
-                    UC.Logging.LogHelper.Error(typeof(Config), e.Message, e);
-
-                }
-                settingsReader.Close();
-                return temp;
+                var db = scope.Database;
+                var sql = new Sql().Select("*").From(PageNotFound.TableName);
+                var pages = db.Fetch<PageNotFound>(sql);
+                HttpRuntime.Cache.Insert(CacheKey, pages);
+                scope.Complete();
+                return pages;
             }
-            return (XmlDocument)settingsFile;
         }
     }
 }

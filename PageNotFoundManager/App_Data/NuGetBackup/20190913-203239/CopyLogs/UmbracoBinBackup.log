@@ -1,0 +1,50 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : 13 September 2019 20:32:39
+   Source : C:\_coding\PageNotFoundManager\PageNotFoundManager\bin\
+     Dest : C:\_coding\PageNotFoundManager\PageNotFoundManager\App_Data\NuGetBackup\20190913-203239\bin\
+
+    Files : *.*
+	    
+  Options : *.* /S /E /DCOPY:DA /COPY:DAT /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+	                  20	C:\_coding\PageNotFoundManager\PageNotFoundManager\bin\
+	    New File  		  118784	businesslogic.dll  0%  100%  
+	    New File  		  483328	cms.dll  0%   27%   54%   81%  100%  
+	    New File  		   51712	controls.dll  0%  100%  
+	    New File  		   24576	interfaces.dll  0%  100%  
+	    New File  		  258048	log4net.dll  0%   50%  100%  
+	    New File  		   11264	Microsoft.ApplicationBlocks.Data.dll  0%  100%  
+	    New File  		  504320	Newtonsoft.Json.dll  0%   25%   51%   77%  100%  
+	    New File  		   19968	SQLCE4Umbraco.dll  0%  100%  
+	    New File  		  465248	System.Data.SqlServerCe.dll  0%   28%   56%   84%  100%  
+	    New File  		  239968	System.Data.SqlServerCe.Entity.dll  0%   54%  100%  
+	    New File  		  192512	TidyNet.dll  0%   68%  100%  
+	    New File  		   2.2 m	Umbraco.Core.dll  0%   21%   43%   65%   87%  100%  
+	    New File  		   38400	umbraco.DataLayer.dll  0%  100%  
+	    New File  		   1.9 m	umbraco.dll  0%   12%   25%   38%   50%   63%   76%   89%  100%  
+	    New File  		  372736	umbraco.editorControls.dll  0%   35%   70%  100%  
+	    New File  		  131584	umbraco.MacroEngines.dll  0%   99%  100%  
+	    New File  		   38400	umbraco.providers.dll  0%  100%  
+	    New File  		   61440	Umbraco.Web.UI.dll  0%  100%  
+	    New File  		   57856	UmbracoExamine.dll  0%  100%  
+	    New File  		   22528	UrlRewritingNet.UrlRewriter.dll  0%  100%  
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :         1         0         1         0         0         0
+   Files :        20        20         0         0         0         0
+   Bytes :    7.19 m    7.19 m         0         0         0         0
+   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
+
+
+   Speed :            65074206 Bytes/sec.
+   Speed :            3723.575 MegaBytes/min.
+   Ended : 13 September 2019 20:32:39
+

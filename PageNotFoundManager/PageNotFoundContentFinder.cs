@@ -1,26 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.EnterpriseServices;
 using System.Linq;
-using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Models;
+using Umbraco.Core.Services;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
 
 namespace PageNotFoundManager
 {
-    public class PageNotFoundContentFinder : IContentFinder
+    public class PageNotFoundContentFinder : IContentLastChanceFinder
     {
-        public bool TryFindContent(PublishedContentRequest contentRequest)
+        private readonly IDomainService domainService;
+        private readonly IUmbracoContextFactory umbracoContextFactory;
+        private readonly IPageNotFoundManagerConfig config;
+
+        public PageNotFoundContentFinder(IDomainService domainService, IUmbracoContextFactory umbracoContextFactory, IPageNotFoundManagerConfig config)
+        {
+            this.domainService = domainService ?? throw new ArgumentNullException(nameof(domainService));
+            this.umbracoContextFactory = umbracoContextFactory ?? throw new ArgumentNullException(nameof(umbracoContextFactory));
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
+        }
+        public bool TryFindContent(PublishedRequest contentRequest)
         {
 
             var uri = contentRequest.Uri.GetAbsolutePathDecoded();
             // a route is "/path/to/page" when there is no domain, and "123/path/to/page" when there is a domain, and then 123 is the ID of the node which is the root of the domain
             //get domain name from Uri
             // find umbraco home node for uri's domain, and get the id of the node it is set on
-            var ds = ApplicationContext.Current.Services.DomainService;
-            var domains = ds.GetAll(true) as IList<IDomain> ?? ds.GetAll(true).ToList();
+            
+            var domains = domainService.GetAll(true) as IList<IDomain> ?? domainService.GetAll(true).ToList();
             var domainRoutePrefixId = String.Empty;
             if (domains.Any())
             {
@@ -48,33 +57,33 @@ namespace PageNotFoundManager
                     domainRoutePrefixId = domain.RootContentId.ToString();
                 }
             }
-            var closestContent = UmbracoContext.Current.ContentCache.GetByRoute(domainRoutePrefixId + uri.ToString(), false);
-            while (closestContent == null)
+            using (var umbracoContext = umbracoContextFactory.EnsureUmbracoContext())
             {
-                uri = uri.Remove(uri.Length - 1, 1);
-                closestContent = UmbracoContext.Current.ContentCache.GetByRoute(domainRoutePrefixId + uri.ToString(), false);
+                var closestContent = umbracoContext.UmbracoContext.Content.GetByRoute(domainRoutePrefixId + uri.ToString(), false);
+                while (closestContent == null)
+                {
+                    uri = uri.Remove(uri.Length - 1, 1);
+                    closestContent = umbracoContext.UmbracoContext.Content.GetByRoute(domainRoutePrefixId + uri.ToString(), false);
+                }
+                var nfp = config.GetNotFoundPage(closestContent.Id);
+
+                while (nfp == 0)
+                {
+                    closestContent = closestContent.Parent;
+
+                    if (closestContent == null) return false;
+
+                    nfp = config.GetNotFoundPage(closestContent.Id);
+                }
+
+                var content = umbracoContext.UmbracoContext.Content.GetById(nfp);
+                if (content == null) return false;
+
+                contentRequest.PublishedContent = content;
+                return true;
             }
-            var nfp = Config.GetNotFoundPage(closestContent.Id);
-
-            while (nfp == 0)
-            {
-                closestContent = closestContent.Parent;
-
-                if (closestContent == null) return false;
-
-                nfp = Config.GetNotFoundPage(closestContent.Id);
-            }
-
-            var content = UmbracoContext.Current.ContentCache.GetById(nfp);
-            if (content == null) return false;
-
-            contentRequest.PublishedContent = content;
-            return true;
-
 
         }
-
-
 
     }
 }

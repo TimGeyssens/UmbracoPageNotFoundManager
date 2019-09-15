@@ -1,26 +1,28 @@
 ﻿using Microsoft.Web.XmlTransform;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using umbraco.cms.businesslogic.packager.standardPackageActions;
-using umbraco.interfaces;
+using System.Xml.Linq;
+using PA = Umbraco.Core.PackageActions;
 
 namespace PageNotFoundManager.Umbraco.Installer
 {
     public class PackageActions
     {
-        public class TransformConfig : IPackageAction
+        public class TransformConfig : PA.IPackageAction
         {
+
+            public TransformConfig()
+            {
+
+            }
             public string Alias()
             {
                 return "PNFM.TransformConfig";
             }
 
-            private bool Transform(string packageName, System.Xml.XmlNode xmlData, bool uninstall = false)
+            private bool Transform(string packageName, XElement xmlData, bool uninstall = false)
             {
                 //The config file we want to modify
-                var file = xmlData.Attributes.GetNamedItem("file").Value;
+                var file = xmlData.Attribute("file").Value;
 
                 string sourceDocFileName = VirtualPathUtility.ToAbsolute(file);
 
@@ -32,7 +34,7 @@ namespace PageNotFoundManager.Umbraco.Installer
                     fileEnd = string.Format("un{0}", fileEnd);
                 }
 
-                var xdtfile = string.Format("{0}.{1}", xmlData.Attributes.GetNamedItem("xdtfile").Value, fileEnd);
+                var xdtfile = string.Format("{0}.{1}", xmlData.Attribute("xdtfile").Value, fileEnd);
                 string xdtFileName = VirtualPathUtility.ToAbsolute(xdtfile);
 
                 // The translation at-hand
@@ -55,21 +57,18 @@ namespace PageNotFoundManager.Umbraco.Installer
                 return true;
             }
 
-            public bool Execute(string packageName, System.Xml.XmlNode xmlData)
-            {
-                return Transform(packageName, xmlData);
-            }
 
-            public System.Xml.XmlNode SampleXml()
-            {
-                string str = "<Action runat=\"install\" undo=\"true\" alias=\"PNFM.TransformConfig\" file=\"~/web.config\" xdtfile=\"~/app_plugins/demo/web.config\">" +
-                         "</Action>";
-                return helper.parseStringToXmlNode(str);
-            }
 
-            public bool Undo(string packageName, System.Xml.XmlNode xmlData)
+            
+
+            public bool Undo(string packageName, XElement xmlData)
             {
                 return Transform(packageName, xmlData, true);
+            }
+
+            public bool Execute(string packageName, XElement xmlData)
+            {
+                return Transform(packageName, xmlData);
             }
         }
     }
