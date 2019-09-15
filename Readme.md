@@ -13,7 +13,7 @@ Adds a new context menu item to Umbraco content items (for admins only) where yo
 ![](screenshot.png)
 
 ### Test site ###
-Backoffice credentials: **john@doe.com / password**
+Backoffice credentials: **john@doe.com / john@doe.com**
 
 
 ### Installation
