@@ -79,6 +79,7 @@ namespace PageNotFoundManager
                 var content = umbracoContext.UmbracoContext.Content.GetById(nfp);
                 if (content == null) return false;
 
+                contentRequest.SetResponseStatus(404);
                 contentRequest.PublishedContent = content;
                 return true;
             }

@@ -2,6 +2,9 @@
     "use strict";
     function PageNotFoundManagerDialog($scope, pageNotFoundManagerResource, navigationService, userService, entityResource, iconHelper) {
         var node = $scope.currentNode;
+        var vm = this;
+        var initUserDetails;
+        var initNotFound;
         $scope.nav = navigationService;
         $scope.dialogTreeApi = {};
         $scope.treeModel = {
@@ -18,9 +21,13 @@
         };
 
         function init() {
+            initUserDetails = false;
+            initNotFound = false;
             userService.getCurrentUser().then((userData) => {
                 $scope.treeModel.hideHeader =
                     userData.startContentIds.length > 0 && userData.startContentIds.indexOf(-1) === -1;
+                initUserDetails = true;
+                vm.busy = !(initNotFound && initUserDetails);
             });
 
             pageNotFoundManagerResource.getNotFoundPage(node.id).then((resp) => {
@@ -32,7 +39,9 @@
                         $scope.pageNotFoundNode = item;
                     });
                 }
-                $scope.loaded = true;
+                vm.loaded = true;
+                initNotFound = true;
+                vm.busy = !(initNotFound && initUserDetails);
             });
         }
 
@@ -81,7 +90,7 @@
 
         $scope.setNotFoundPage = function() {
 
-            $scope.busy = true;
+            vm.busy = true;
             $scope.error = false;
 
             var parentId = 0;
@@ -95,11 +104,11 @@
             pageNotFoundManagerResource.setNotFoundPage(parentId, notFoundPageId).then(function() {
                 $scope.error = false;
                 $scope.success = true;
-                $scope.busy = false;
+                vm.busy = false;
             }, function(err) {
                 $scope.success = false;
                 $scope.error = err;
-                $scope.busy = false;
+                vm.busy = false;
             });
         };
 

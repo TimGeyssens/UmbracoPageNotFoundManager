@@ -1,12 +1,12 @@
-﻿<div ng-controller="PageNotFoundManager.Dialog.Controller">
+﻿<div ng-controller="PageNotFoundManager.Dialog.Controller as vm">
     <div class="umb-dialog-body" ng-cloak>
-        <div class="umb-pane" ng-hide="busy || !loaded">
+        <div class="umb-pane" ng-show="vm.busy || !vm.loaded">
             <p class="abstract">
                 Choose the 404 page for <strong>{{currentNode.name}}</strong> and child pages
             </p>
             <umb-load-indicator></umb-load-indicator>
         </div>
-        <div class="umb-pane" ng-hide="!loaded">
+        <div class="umb-pane" ng-hide="!vm.loaded">
 
             <div ng-show="error">
                 <div class="alert alert-error">
@@ -31,7 +31,8 @@
                 <ul class="unstyled list-icons">
                     <li>
                         <i class="icon {{pageNotFoundNode.icon}} hover-hide"></i>
-                        <a ng-click="clear()">{{pageNotFoundNode.name}}</a>
+                        <a>{{pageNotFoundNode.name}}</a>
+                        <a ng-click="clear()"><i class="icon red icon-delete"></i></a>
                     </li>
                 </ul>
             </div>
