@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Umbraco.Core.Scoping;
+using Umbraco.Web;
 
 namespace PageNotFoundManager
 {
@@ -12,38 +13,65 @@ namespace PageNotFoundManager
     {
         private const string CacheKey = "pageNotFoundManagerConfig";
         private readonly IScopeProvider scopeProvider;
+        private readonly IUmbracoContextFactory umbracoContextFactory;
 
-        public Config(IScopeProvider scopeProvider)
+        public Config(IScopeProvider scopeProvider, IUmbracoContextFactory umbracoContextFactory)
         {
             this.scopeProvider = scopeProvider ?? throw new ArgumentNullException(nameof(scopeProvider));
+            this.umbracoContextFactory = umbracoContextFactory ?? throw new ArgumentNullException(nameof(umbracoContextFactory));
         }
 
         public int GetNotFoundPage(int parentId)
         {
-            var x = ConfiguredPages.FirstOrDefault(p => p.ParentId == parentId);
-            return x != null ? x.NotFoundPageId : 0;
+            using (var umbracoContext = umbracoContextFactory.EnsureUmbracoContext())
+            {
+                var parentNode = umbracoContext.UmbracoContext.Content.GetById(parentId);
+                return parentNode != null ? GetNotFoundPage(parentNode.Key) : 0;
+            }   
+        }
+
+        public int GetNotFoundPage(Guid parentKey)
+        {
+            using (var umbracoContext = umbracoContextFactory.EnsureUmbracoContext())
+            {
+                var x = ConfiguredPages.FirstOrDefault(p => p.ParentId == parentKey);
+                var page = x != null ? umbracoContext.UmbracoContext.Content.GetById(x.NotFoundPageId) : null;
+                return page != null ? page.Id : 0;
+            }
         }
 
         public void SetNotFoundPage(int parentId, int pageNotFoundId, bool refreshCache)
         {
+            using (var umbracoContext = umbracoContextFactory.EnsureUmbracoContext())
+            {
+                var parentPage = umbracoContext.UmbracoContext.Content.GetById(parentId);
+                var pageNotFoundPage = umbracoContext.UmbracoContext.Content.GetById(pageNotFoundId);
+                SetNotFoundPage(parentPage.Key, pageNotFoundPage.Key, refreshCache);   
+            }
+        }
+
+        public void SetNotFoundPage(Guid parentKey, Guid pageNotFoundKey, bool refreshCache)
+        {
+            
             using (var scope = scopeProvider.CreateScope())
             {
                 var db = scope.Database;
-                var page = db.Query<PageNotFound>().Where(p => p.ParentId == parentId).FirstOrDefault();
+                var page = db.Query<PageNotFound>().Where(p => p.ParentId == parentKey).FirstOrDefault();
                 if (page == null)
                 {
                     // create the page
-                    db.Insert<PageNotFound>(new PageNotFound { ParentId = parentId, NotFoundPageId = pageNotFoundId });
+                    db.Insert<PageNotFound>(new PageNotFound { ParentId = parentKey, NotFoundPageId = pageNotFoundKey });
                 }
                 else
                 {
                     // update the existing page
-                    page.NotFoundPageId = pageNotFoundId;
+                    page.NotFoundPageId = pageNotFoundKey;
                     db.Update(PageNotFound.TableName, "ParentId", page);
                 }
                 scope.Complete();
             }
-            if(refreshCache)
+            
+            if (refreshCache)
                 RefreshCache();
         }
 

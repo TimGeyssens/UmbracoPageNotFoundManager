@@ -1,4 +1,5 @@
 ﻿using NPoco;
+using System;
 using System.Runtime.Serialization;
 
 namespace PageNotFoundManager.Models
@@ -13,10 +14,10 @@ namespace PageNotFoundManager.Models
         public const string TableName = "pageNotFoundConfig";
 
         [Column("ParentId")]
-        public int ParentId { get; set; }
+        public Guid ParentId { get; set; }
 
         [Column("NotFoundPageId")]
-        public int NotFoundPageId { get; set; }
+        public Guid NotFoundPageId { get; set; }
 
     }
 }

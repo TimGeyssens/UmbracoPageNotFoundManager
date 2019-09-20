@@ -24,7 +24,7 @@ namespace PageNotFoundManager.Controllers
             return config.GetNotFoundPage(pageId);
         }
         [HttpPost]
-        public void SetNotFoundPage(PageNotFound pnf)
+        public void SetNotFoundPage(PageNotFoundRequest pnf)
         {
             config.SetNotFoundPage(pnf.ParentId, pnf.NotFoundPageId, true);
             

@@ -5,7 +5,7 @@ using Umbraco.Core.Cache;
 
 namespace PageNotFoundManager.CacheRefreshers
 {
-    public class PageNotFoundManagerCacheRefresher : PayloadCacheRefresherBase<PageNotFoundManagerCacheRefresher, PageNotFound>
+    public class PageNotFoundManagerCacheRefresher : PayloadCacheRefresherBase<PageNotFoundManagerCacheRefresher, PageNotFoundRequest>
     {
         public const string Id = "fb97db9a-e67d-4b38-a320-58ecc1e326a7";
         private readonly IPageNotFoundManagerConfig config;
@@ -25,12 +25,12 @@ namespace PageNotFoundManager.CacheRefreshers
         public override Guid RefresherUniqueId => new Guid(Id);
 
         
-        protected override PageNotFound[] Deserialize(string json)
+        protected override PageNotFoundRequest[] Deserialize(string json)
         {
-           return new JavaScriptSerializer().Deserialize<PageNotFound[]>(json);
+           return new JavaScriptSerializer().Deserialize<PageNotFoundRequest[]>(json);
         }
 
-        public override void Refresh(PageNotFound[] payloads)
+        public override void Refresh(PageNotFoundRequest[] payloads)
         {
             foreach(var payload in payloads)
                 config.SetNotFoundPage(payload.ParentId, payload.NotFoundPageId, false);

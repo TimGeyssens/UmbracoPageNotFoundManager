@@ -301,6 +301,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Extensions\PageNotFoundManagerExtensions.cs" />
     <Compile Include="IPageNotFoundManagerConfig.cs" />
+    <Compile Include="Models\PageNotFoundRequest.cs" />
     <Compile Include="Models\PageNotFound.cs" />
     <Compile Include="PageNotFoundContentFinder.cs" />
     <Compile Include="PageNotFoundInitialMigration.cs" />
