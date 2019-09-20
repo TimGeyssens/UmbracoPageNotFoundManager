@@ -7,8 +7,8 @@
 			<license url="http://www.opensource.org/licenses/mit-license.php">MIT license</license>
 			<url>http://nibble.be</url>
 			<requirements>
-				<major>7</major>
-				<minor>3</minor>
+				<major>8</major>
+				<minor>1</minor>
 				<patch>0</patch>
 			</requirements>
 		</package>
