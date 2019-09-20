@@ -8,7 +8,7 @@ skip_tags: true
 
 build_script:
   - cd BuildPackages
-  - Package.build.cmd
+  - Package.build.v14.cmd
 
 artifacts:
   - path: Releases\*.nupkg
