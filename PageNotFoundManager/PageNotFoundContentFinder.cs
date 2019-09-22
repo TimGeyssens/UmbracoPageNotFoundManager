@@ -59,11 +59,11 @@ namespace PageNotFoundManager
             }
             using (var umbracoContext = umbracoContextFactory.EnsureUmbracoContext())
             {
-                var closestContent = umbracoContext.UmbracoContext.Content.GetByRoute(domainRoutePrefixId + uri.ToString(), false);
+                var closestContent = umbracoContext.UmbracoContext.Content.GetByRoute(domainRoutePrefixId + uri.ToString(), false, culture: contentRequest?.Culture?.Name);
                 while (closestContent == null)
                 {
                     uri = uri.Remove(uri.Length - 1, 1);
-                    closestContent = umbracoContext.UmbracoContext.Content.GetByRoute(domainRoutePrefixId + uri.ToString(), false);
+                    closestContent = umbracoContext.UmbracoContext.Content.GetByRoute(domainRoutePrefixId + uri.ToString(), false, culture: contentRequest?.Culture?.Name);
                 }
                 var nfp = config.GetNotFoundPage(closestContent.Id);
 
