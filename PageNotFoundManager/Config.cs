@@ -46,7 +46,7 @@ namespace PageNotFoundManager
             {
                 var parentPage = umbracoContext.UmbracoContext.Content.GetById(parentId);
                 var pageNotFoundPage = umbracoContext.UmbracoContext.Content.GetById(pageNotFoundId);
-                SetNotFoundPage(parentPage.Key, pageNotFoundPage.Key, refreshCache);   
+                SetNotFoundPage(parentPage.Key, pageNotFoundPage != null ? pageNotFoundPage.Key : Guid.Empty, refreshCache);   
             }
         }
 
@@ -57,16 +57,21 @@ namespace PageNotFoundManager
             {
                 var db = scope.Database;
                 var page = db.Query<PageNotFound>().Where(p => p.ParentId == parentKey).FirstOrDefault();
-                if (page == null)
+                if (page == null && !Guid.Empty.Equals(pageNotFoundKey))
                 {
                     // create the page
                     db.Insert<PageNotFound>(new PageNotFound { ParentId = parentKey, NotFoundPageId = pageNotFoundKey });
                 }
-                else
+                else if(page != null)
                 {
-                    // update the existing page
-                    page.NotFoundPageId = pageNotFoundKey;
-                    db.Update(PageNotFound.TableName, "ParentId", page);
+                    if (Guid.Empty.Equals(pageNotFoundKey))
+                        db.Delete(page);
+                    else
+                    {
+                        // update the existing page
+                        page.NotFoundPageId = pageNotFoundKey;
+                        db.Update(PageNotFound.TableName, "ParentId", page);
+                    }
                 }
                 scope.Complete();
             }

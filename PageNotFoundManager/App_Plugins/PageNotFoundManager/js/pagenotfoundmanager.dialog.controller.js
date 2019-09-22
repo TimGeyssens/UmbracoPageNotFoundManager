@@ -98,7 +98,7 @@
                 parentId = node.id;
 
             var notFoundPageId = 0;
-            if ($scope.target !== null)
+            if ($scope.target !== undefined && $scope.target !== null)
                 notFoundPageId = $scope.target.id;
 
             pageNotFoundManagerResource.setNotFoundPage(parentId, notFoundPageId).then(function() {
