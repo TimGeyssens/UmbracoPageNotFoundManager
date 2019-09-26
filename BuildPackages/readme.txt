@@ -6,4 +6,9 @@
                              
 This package is proudly presented to you by Tim Geyssens 
 http://nibble.be - Umbraco Developer
+
+Version 2.0.0 additional contributors
+
+Nik Rimington
+Matthew Wise
                              

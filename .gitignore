@@ -9,6 +9,7 @@
 *.suo
 *.user
 *.sln.docstates
+*.vs/*
 
 # Build results
 [Dd]ebug/
@@ -100,5 +101,7 @@ www/App_Data/umbraco.config
 !/BuildPackages/Tools/MSBuildNugetTasks/*
 !/BuildPackages/Tools/MSBuildUmbracoTasks/*
 
-TestSite/App_Data/Logs/
-TestSite/App_Data/cache/
+v8TestSite/App_Data/Logs/
+v8TestSite/App_Data/cache/
+v8TestSite/Umbraco/**/*
+

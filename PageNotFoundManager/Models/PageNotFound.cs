@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NPoco;
+using System;
 using System.Runtime.Serialization;
-using System.Web;
 
 namespace PageNotFoundManager.Models
 {
-    [DataContract(Name = "pageNotFound")]
+    [TableName(TableName)]
 
+    [PrimaryKey("ParentId", AutoIncrement = false)]
     public class PageNotFound
     {
-        [DataMember(Name = "parentId")]
-        public int ParentId { get; set; }
 
-        [DataMember(Name = "notFoundPageId")]
-        public int NotFoundPageId { get; set; }
+        [IgnoreDataMember]
+        public const string TableName = "pageNotFoundConfig";
+
+        [Column("ParentId")]
+        public Guid ParentId { get; set; }
+
+        [Column("NotFoundPageId")]
+        public Guid NotFoundPageId { get; set; }
+
     }
 }

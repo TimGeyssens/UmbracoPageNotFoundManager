@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
 using PageNotFoundManager.Extensions;
 using PageNotFoundManager.Models;
-using Umbraco.Core.Models;
 using Umbraco.Web.Cache;
 using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
@@ -15,54 +11,24 @@ namespace PageNotFoundManager.Controllers
     [PluginController("PageNotFoundManager")]
     public class DashboardController : UmbracoAuthorizedJsonController  
     {
+        private readonly DistributedCache distributedCache;
+        private readonly IPageNotFoundManagerConfig config;
 
-        //public IEnumerable<Models.Language> GetAllLanguages()
-        //{
-        //    var langs = new List<Models.Language>();
-
-        //    var dl = new Models.Language {Name = "Default", IsoCode = "default"};
-
-        //    var nfp = Config.GetLanguageNotFoundPage("default");
-        //    var temp = 0;
-        //    if (int.TryParse(nfp, out temp))
-        //        dl.NodeRedirect = temp;
-        //    else
-        //        dl.XPathRedirect = nfp;
-
-        //    langs.Add(dl);
-
-        //    foreach (var lang in Services.LocalizationService.GetAllLanguages())
-        //    {
-        //        var l = new Models.Language {Name = lang.CultureInfo.DisplayName, IsoCode = lang.IsoCode};
-
-        //        nfp = Config.GetLanguageNotFoundPage(lang.IsoCode);
-        //        temp = 0;
-        //        if (int.TryParse(nfp, out temp))
-        //            l.NodeRedirect = temp;
-        //        else
-        //            l.XPathRedirect = nfp;
-
-        //        langs.Add(l);
-        //    }
-
-        //    return langs;
-        //}
-
-        //public void PostSave(IEnumerable<Models.Language> languages)
-        //{
-        //    Config.SaveLanguageNotFoundPages(languages);
-        //}
-
+        public DashboardController(DistributedCache distributedCache, IPageNotFoundManagerConfig config)
+        {
+            this.distributedCache = distributedCache ?? throw new ArgumentNullException(nameof(distributedCache));
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
+        }
         public int GetNotFoundPage(int pageId)
         {
-            return Config.GetNotFoundPage(pageId);
+            return config.GetNotFoundPage(pageId);
         }
         [HttpPost]
-        public void SetNotFoundPage(PageNotFound pnf)
+        public void SetNotFoundPage(PageNotFoundRequest pnf)
         {
-            Config.SetNotFoundPage(pnf.ParentId, pnf.NotFoundPageId);
+            config.SetNotFoundPage(pnf.ParentId, pnf.NotFoundPageId, true);
             
-            DistributedCache.Instance.RefreshPageNotFoundConfig(pnf);
+            distributedCache.RefreshPageNotFoundConfig(pnf);
         }
     }
 }

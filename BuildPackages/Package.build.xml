@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package" ToolsVersion="14.0">
 
 	<!-- IMPORTS -->
 	<PropertyGroup>
@@ -16,7 +16,7 @@
 	<!-- SHARED PROPERTIES -->
 	<PropertyGroup>
 		<PackageName>Umbraco Page Not Found Manager</PackageName>
-		<MinUmbracoVersion>7.3.0</MinUmbracoVersion>
+		<MinUmbracoVersion>8.1.0</MinUmbracoVersion>
 		<Readme>Easiliy manage your sites 404 pages from the content context menu</Readme>
 		<AuthorName>Tim Geyssens</AuthorName>
 		<AuthorUrl>http://nibble.be</AuthorUrl>
@@ -40,11 +40,11 @@
   
 
 	<PropertyGroup>
-		<VersionMajor>1</VersionMajor>
-		<VersionMinor>9</VersionMinor>
+		<VersionMajor>2</VersionMajor>
+		<VersionMinor>0</VersionMinor>
 		<VersionPatch>0</VersionPatch>
 		<VersionSuffix></VersionSuffix>
-		<UmbracoVersion>7.3.0</UmbracoVersion>
+		<UmbracoVersion>8.1.0</UmbracoVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>

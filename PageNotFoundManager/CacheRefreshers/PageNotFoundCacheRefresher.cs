@@ -5,18 +5,14 @@ using Umbraco.Core.Cache;
 
 namespace PageNotFoundManager.CacheRefreshers
 {
-    public class PageNotFoundManagerCacheRefresher : PayloadCacheRefresherBase<PageNotFoundManagerCacheRefresher>
+    public class PageNotFoundManagerCacheRefresher : PayloadCacheRefresherBase<PageNotFoundManagerCacheRefresher, PageNotFoundRequest>
     {
         public const string Id = "fb97db9a-e67d-4b38-a320-58ecc1e326a7";
+        private readonly IPageNotFoundManagerConfig config;
 
-        protected override PageNotFoundManagerCacheRefresher Instance
+        public PageNotFoundManagerCacheRefresher(AppCaches appCaches, IPageNotFoundManagerConfig config) : base(appCaches)
         {
-            get { return this; }
-        }
-
-        public override Guid UniqueIdentifier
-        {
-            get { return new Guid(Id); }
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         public override string Name
@@ -24,16 +20,22 @@ namespace PageNotFoundManager.CacheRefreshers
             get { return "PageNotFoundManager Cache Refresher"; }
         }
 
-        protected override object Deserialize(string json)
+        protected override PageNotFoundManagerCacheRefresher This => this;
+
+        public override Guid RefresherUniqueId => new Guid(Id);
+
+        
+        protected override PageNotFoundRequest[] Deserialize(string json)
         {
-           return new JavaScriptSerializer().Deserialize<PageNotFound>(json);
+           return new JavaScriptSerializer().Deserialize<PageNotFoundRequest[]>(json);
         }
 
-        public override void Refresh(object payload)
+        public override void Refresh(PageNotFoundRequest[] payloads)
         {
-            var jsonPayload = (PageNotFound)payload;
-
-            PageNotFoundManager.Config.SetNotFoundPage(jsonPayload.ParentId, jsonPayload.NotFoundPageId);
+            foreach(var payload in payloads)
+                config.SetNotFoundPage(payload.ParentId, payload.NotFoundPageId, false);
+            config.RefreshCache();
         }
+
     }
 }
