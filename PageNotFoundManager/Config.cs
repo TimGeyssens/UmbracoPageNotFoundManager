@@ -1,5 +1,7 @@
 ﻿using PageNotFoundManager.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using Umbraco.Core.Persistence;
@@ -53,11 +55,13 @@ namespace PageNotFoundManager
 
         private static IEnumerable<PageNotFound> LoadFromDb()
         {
+
             var db = UmbracoContext.Current.Application.DatabaseContext.Database;
             var sql = new Sql().Select("*").From(PageNotFound.TableName);
             var pages = db.Fetch<PageNotFound>(sql);
             HttpRuntime.Cache.Insert(CacheKey, pages);
             return pages;
+
         }
     }
 }
