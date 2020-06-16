@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageNotFoundManager", "PageNotFoundManager\PageNotFoundManager.csproj", "{2F1494AC-E9FA-463D-8658-1E66D40B6E97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSite", "TestSite\TestSite.csproj", "{A2FEF370-73C4-453C-AAAD-ACC255E29C26}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2E0D3FFB-8D06-499B-9D55-48DFA927B4CF}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -34,10 +32,6 @@ Global
 		{2F1494AC-E9FA-463D-8658-1E66D40B6E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F1494AC-E9FA-463D-8658-1E66D40B6E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F1494AC-E9FA-463D-8658-1E66D40B6E97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2FEF370-73C4-453C-AAAD-ACC255E29C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2FEF370-73C4-453C-AAAD-ACC255E29C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2FEF370-73C4-453C-AAAD-ACC255E29C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2FEF370-73C4-453C-AAAD-ACC255E29C26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

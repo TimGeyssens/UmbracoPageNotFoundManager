@@ -14,9 +14,6 @@ If you want to use the package on an Umbraco Cloud environment, please get in to
 
 ![](screenshot.png)
 
-### Test site ###
-Backoffice credentials: **john@doe.com / password**
-
 
 ### Installation
 
