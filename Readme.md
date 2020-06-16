@@ -10,6 +10,8 @@
 
 Adds a new context menu item to Umbraco content items (for admins only) where you can easily manage your site's 404 page(s).
 
+If you want to use the package on an Umbraco Cloud environment, please get in touch with umbpackages@nibble.be
+
 ![](screenshot.png)
 
 ### Test site ###
