@@ -21,6 +21,8 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -286,6 +288,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Extensions\PageNotFoundManagerExtensions.cs" />
+    <Compile Include="Migrator.cs" />
     <Compile Include="Models\PageNotFound.cs" />
     <Compile Include="PageNotFoundContentFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -295,7 +298,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="App_Plugins\PageNotFoundManager\package.manifest" />
-    <Content Include="App_Plugins\PageNotFoundManager\PageNotFoundManager.config" />
     <Content Include="App_Plugins\PageNotFoundManager\temp\web.config.install.xdt" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
