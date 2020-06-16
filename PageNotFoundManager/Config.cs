@@ -11,6 +11,7 @@ namespace PageNotFoundManager
 {
     public class Config
     {
+
         private const string CacheKey = "pageNotFoundManagerConfig";
 
         public static int GetNotFoundPage(int parentId)
@@ -62,6 +63,13 @@ namespace PageNotFoundManager
             HttpRuntime.Cache.Insert(CacheKey, pages);
             return pages;
 
+        }
+
+        public static bool RunningOnCloud()
+        {
+           return AppDomain.CurrentDomain.GetAssemblies()
+                            .Any(a => a.FullName.StartsWith("Concorde.Messaging.Web"));
+           
         }
     }
 }

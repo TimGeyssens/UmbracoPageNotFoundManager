@@ -1,0 +1,26 @@
+﻿<div ng-controller="PageNotFoundManager.Cloud.Controller">
+    <div class="umb-dialog-body form-horizontal">
+        <div class="umb-pane">
+            <p class="abstract">
+                Choose the 404 page for <strong>{{currentNode.name}}</strong> and child pages
+            </p>
+
+            <div class="alert alert-error" >
+                <h4>Page Not found manager</h4>
+                <p>
+                    Unfortunately this package isn't available free of cost if you are running your site on an Umbraco Cloud environment . If you wish to get rid of this message and get a working 404 manager get in touch at
+                    <a href="mailto:" umbpackages@nibble.be">umbpackages@nibble.be</a>. 
+                </p>
+            </div>
+           
+        </div>
+    </div>
+
+    <div class="umb-dialog-footer btn-toolbar umb-btn-toolbar" ng-hide="success">
+        <a class="btn btn-link" ng-click="nav.hideDialog()" ng-if="!busy">
+            <localize key="general_cancel">Cancel</localize>
+        </a>
+       
+    </div>
+
+    </div>

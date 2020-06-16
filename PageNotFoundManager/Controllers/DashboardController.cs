@@ -48,6 +48,7 @@ namespace PageNotFoundManager.Controllers
         //    Config.SaveLanguageNotFoundPages(languages);
         //}
 
+
         public int GetNotFoundPage(int pageId)
         {
             return Config.GetNotFoundPage(pageId);

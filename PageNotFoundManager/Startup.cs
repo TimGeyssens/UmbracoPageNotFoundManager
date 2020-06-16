@@ -31,15 +31,30 @@ namespace PageNotFoundManager
 
         void TreeControllerBase_MenuRendering(TreeControllerBase sender, MenuRenderingEventArgs e)
         {
-            if (sender.TreeAlias == "content"
-                && sender.Security.CurrentUser.UserType.Alias == "admin"
-                && e.NodeId != "-1" && e.NodeId != "-20")
+            if (Config.RunningOnCloud())
             {
-                var mi = new MenuItem("pageNotFound", "404 page");
-                mi.Icon = "document";
-                mi.LaunchDialogView("/App_Plugins/PageNotFoundManager/Backoffice/Dialogs/dialog.html", "404 Page");
-                mi.SeperatorBefore = true;
-                e.Menu.Items.Insert(e.Menu.Items.Count - 1, mi);
+                if (sender.TreeAlias == "content"
+                   && e.NodeId != "-1" && e.NodeId != "-20")
+                {
+                    var mi = new MenuItem("pageNotFound", "404 page - Not Licensed For Cloud");
+                    mi.Icon = "dollar-bag";
+                    mi.LaunchDialogView("/App_Plugins/PageNotFoundManager/Backoffice/Dialogs/cloud.html", "404 Page");
+                    mi.SeperatorBefore = true;
+                    e.Menu.Items.Insert(e.Menu.Items.Count - 1, mi);
+                }
+            }
+            else
+            {
+                if (sender.TreeAlias == "content"
+                    && sender.Security.CurrentUser.UserType.Alias == "admin"
+                    && e.NodeId != "-1" && e.NodeId != "-20")
+                {
+                    var mi = new MenuItem("pageNotFound", "404 page");
+                    mi.Icon = "document";
+                    mi.LaunchDialogView("/App_Plugins/PageNotFoundManager/Backoffice/Dialogs/dialog.html", "404 Page");
+                    mi.SeperatorBefore = true;
+                    e.Menu.Items.Insert(e.Menu.Items.Count - 1, mi);
+                }
             }
         }
     }
