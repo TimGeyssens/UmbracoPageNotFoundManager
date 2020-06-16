@@ -1,13 +1,16 @@
 # version format
 version: 1.11.0.{build}
 
-# Do not build on tags
 skip_tags: true
 
+image: Visual Studio 2017
+
+
+before_build:
+  - ps: nuget restore src/PageNotFoundManager.sln
 
 build_script:
-  - cd BuildPackages
-  - Package.build.cmd
+  - msbuild BuildPackages/Package.build.xml
 
 artifacts:
   - path: Releases\*.nupkg
