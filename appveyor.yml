@@ -7,7 +7,7 @@ image: Visual Studio 2017
 
 
 before_build:
-  - ps: nuget restore src/PageNotFoundManager.sln
+  - ps: nuget restore PageNotFoundManager.sln
 
 build_script:
   - msbuild BuildPackages/Package.build.xml
