@@ -8,6 +8,8 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/sce0it3jhfm2ywg4?svg=true)](https://ci.appveyor.com/project/TimGeyssens/umbracopagenotfoundmanager)
 
+Please be aware of the [License Model](https://github.com/TimGeyssens/UmbracoPageNotFoundManager/blob/v3/license.md) before using this package since additional charges might apply if you are an Umbraco Gold Partner. And it is prohibited to use the Software on the Cloud offering of Umbraco.
+
 Adds a new context menu item to Umbraco content items (for admins only) where you can easily manage your site's 404 page(s).
 
 If you want to use the package on an Umbraco Cloud environment, please get in touch with umbpackages@nibble.be
